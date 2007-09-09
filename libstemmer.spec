@@ -1,10 +1,11 @@
 %define	major 0
-%define libname	%mklibname stemmer %{major}
+%define libname %mklibname stemmer %{major}
+%define develname %mklibname stemmer -d
 
 Summary:	The C version of the libstemmer library
 Name:		libstemmer
 Version:	0
-Release:	%mkrel 1
+Release:	%mkrel 2
 Group:		System/Libraries
 License:	BSD
 URL:		http://snowball.tartarus.org/
@@ -33,14 +34,14 @@ which have been implemented using it.
 
 This package containst the C version of the libstemmer library.
 
-%package -n	%{libname}-devel
-Summary:	Static library and header files for the libevent library
+%package -n	%{develname}
+Summary:	Static library and header files for the libstemmer library
 Group:		Development/C
-Provides:	%{name}-devel
-Provides:	lib%{name}-devel
+Provides:	%{name}-devel = %{version}-%{release}
 Requires:	%{libname} = %{version}
+Obsoletes:	%{mklibname stemmer 0 -d}
 
-%description -n	%{libname}-devel
+%description -n	%{develname}
 Snowball is a small string processing language designed for
 creating stemming algorithms for use in Information Retrieval.
 This site describes Snowball, and presents several useful stemmers
@@ -85,7 +86,7 @@ perl -pi -e "s|/usr/lib|%{_libdir}|g" Makefile
 %doc README
 %{_libdir}/*.so.*
 
-%files -n %{libname}-devel
+%files -n %{develname}
 %defattr(-,root,root)
 %dir %{_includedir}/%{name}
 %{_includedir}/%{name}/*.h
@@ -96,5 +97,3 @@ perl -pi -e "s|/usr/lib|%{_libdir}|g" Makefile
 %files -n stemwords
 %defattr(-,root,root)
 %{_bindir}/stemwords
-
-
