@@ -5,14 +5,14 @@
 Summary:	The C version of the libstemmer library
 Name:		libstemmer
 Version:	0
-Release:	%mkrel 3
+Release:	%mkrel 4
 Group:		System/Libraries
 License:	BSD
 URL:		http://snowball.tartarus.org/
-Source0:	http://snowball.tartarus.org/dist/libstemmer_c.tar.bz2
+Source0:	http://snowball.tartarus.org/dist/libstemmer_c.tgz
 Patch0:		libstemmer-libtool.diff
 BuildRequires:	libtool
-BuildRoot:	%{_tmppath}/%{name}-%{version}-root
+BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
 Snowball is a small string processing language designed for
@@ -70,9 +70,15 @@ perl -pi -e "s|/usr/lib|%{_libdir}|g" Makefile
 %make CFLAGS="%{optflags} -Wall -Iinclude -fPIC -DPIC -D_REENTRANT"
 
 %install
-[ "%{buildroot}" != "/" ] && rm -rf %{buildroot}
+rm -rf %{buildroot}
 
 %makeinstall_std
+
+# install referenced headers
+install -m0644 src_c/stem_*.h %{buildroot}%{_includedir}/%{name}/
+
+# fix location
+perl -pi -e "s|\.\./src_c/||g" %{buildroot}%{_includedir}/%{name}/modules.h
 
 %if %mdkversion < 200900
 %post -n %{libname} -p /sbin/ldconfig
@@ -83,7 +89,7 @@ perl -pi -e "s|/usr/lib|%{_libdir}|g" Makefile
 %endif
 
 %clean
-[ "%{buildroot}" != "/" ] && rm -rf %{buildroot}
+rm -rf %{buildroot}
 
 %files -n %{libname}
 %defattr(-,root,root)
