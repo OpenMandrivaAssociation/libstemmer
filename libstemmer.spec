@@ -5,7 +5,7 @@
 Summary:	The C version of the libstemmer library
 Name:		libstemmer
 Version:	0
-Release:	%mkrel 4
+Release:	%mkrel 5
 Group:		System/Libraries
 License:	BSD
 URL:		http://snowball.tartarus.org/
@@ -67,7 +67,7 @@ perl -pi -e "s|/usr/lib|%{_libdir}|g" Makefile
 
 %build
 
-%make CFLAGS="%{optflags} -Wall -Iinclude -fPIC -DPIC -D_REENTRANT"
+%make CFLAGS="%{optflags} -Wall -Iinclude -fPIC -DPIC -D_REENTRANT" LDFLAGS="-Wl,--as-needed -Wl,--no-undefined"
 
 %install
 rm -rf %{buildroot}
