@@ -5,7 +5,7 @@
 Summary:	The C version of the libstemmer library
 Name:		libstemmer
 Version:	0
-Release:	%mkrel 7
+Release:	%mkrel 8
 Group:		System/Libraries
 License:	BSD
 URL:		http://snowball.tartarus.org/
