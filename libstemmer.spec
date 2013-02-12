@@ -1,11 +1,11 @@
-%define	major 0
-%define libname %mklibname stemmer %{major}
-%define develname %mklibname stemmer -d
+%define	major	0
+%define	libname	%mklibname stemmer %{major}
+%define devname	%mklibname stemmer -d
 
 Summary:	The C version of the libstemmer library
 Name:		libstemmer
 Version:	0
-Release:	11
+Release:	12
 Group:		System/Libraries
 License:	BSD
 URL:		http://snowball.tartarus.org/
@@ -33,14 +33,14 @@ which have been implemented using it.
 
 This package containst the C version of the libstemmer library.
 
-%package -n	%{develname}
+%package -n	%{devname}
 Summary:	Static library and header files for the libstemmer library
 Group:		Development/C
 Provides:	%{name}-devel = %{version}-%{release}
 Requires:	%{libname} >= %{version}-%{release}
 Obsoletes:	%{mklibname stemmer 0 -d}
 
-%description -n	%{develname}
+%description -n	%{devname}
 Snowball is a small string processing language designed for
 creating stemming algorithms for use in Information Retrieval.
 This site describes Snowball, and presents several useful stemmers
@@ -57,7 +57,6 @@ Group:          System/Libraries
 The stemwords utility using the libstemmer library
 
 %prep
-
 %setup -q -n libstemmer_c
 %patch0 -p0
 
@@ -65,33 +64,25 @@ The stemwords utility using the libstemmer library
 perl -pi -e "s|/usr/lib|%{_libdir}|g" Makefile
 
 %build
-
-perl -pi -e "s|^LDFLAGS.*|LDFLAGS = %{ldflags}|g" Makefile
-
-%make CFLAGS="%{optflags} -Wall -Iinclude -fPIC -DPIC -D_REENTRANT"
+%make LDFLAGS="%{ldflags}" CFLAGS="%{optflags} -Wall -Iinclude -fPIC -DPIC -D_REENTRANT"
 
 %install
-rm -rf %{buildroot}
-
 %makeinstall_std
 
 # install referenced headers
-install -m0644 src_c/stem_*.h %{buildroot}%{_includedir}/%{name}/
+install -m644 src_c/stem_*.h %{buildroot}%{_includedir}/%{name}/
 
 # fix location
 perl -pi -e "s|\.\./src_c/||g" %{buildroot}%{_includedir}/%{name}/modules.h
 
-# cleanup
-rm -f %{buildroot}%{_libdir}/*.*a
-
 %files -n %{libname}
 %doc README
-%{_libdir}/*.so.*
+%{_libdir}/libstemmer.so.%{major}*
 
-%files -n %{develname}
+%files -n %{devname}
 %dir %{_includedir}/%{name}
 %{_includedir}/%{name}/*.h
-%{_libdir}/*.so
+%{_libdir}/libstemmer.so
 
 %files -n stemwords
 %{_bindir}/stemwords

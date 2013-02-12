@@ -30,7 +30,7 @@
 +all: libstemmer.la libstemmer.a stemwords
 +
 +libstemmer.la: $(LTOBJS)
-+	$(LIBTOOL) --mode=link $(CC) $(CFLAGS) -rpath $(libdir) \
++	$(LIBTOOL) --tag=CC --mode=link $(CC) $(CFLAGS) -rpath $(libdir) \
 +	-version-info $(LT_CURRENT):$(LT_REVISION):$(LT_AGE) -o \
 +	$@ $(LDFLAGS) $(LTOBJS)
 +
@@ -38,13 +38,13 @@
 +	$(AR) cru .libs/$@ $(LTOBJS)
 +
 +stemwords: examples/stemwords.o libstemmer.la
-+	$(LIBTOOL) --mode=link $(CC) $(CFLAGS) -o $@ $(LDFLAGS) $^
++	$(LIBTOOL) --tag=CC --mode=link $(CC) $(CFLAGS) -o $@ $(LDFLAGS) $^
 +
 +%.o: %.c
 +	$(CC) -c $(CFLAGS) $< -o $@
 +
 +%.lo: %.c
-+	$(LIBTOOL) --mode=compile $(CC) -c $(CFLAGS) $< -o $@
++	$(LIBTOOL) --tag=CC --mode=compile $(CC) -c $(CFLAGS) $< -o $@
 +
 +install:
 +	$(INSTALL) -d $(DESTDIR)$(bindir)
