@@ -8,10 +8,10 @@ Version:	0
 Release:	12
 Group:		System/Libraries
 License:	BSD
-URL:		http://snowball.tartarus.org/
+Url:		http://snowball.tartarus.org/
 Source0:	http://snowball.tartarus.org/dist/libstemmer_c.tgz
 Patch0:		libstemmer-libtool.diff
-BuildRequires:	autoconf automake libtool
+BuildRequires:	libtool
 
 %description
 Snowball is a small string processing language designed for
@@ -34,20 +34,14 @@ which have been implemented using it.
 This package containst the C version of the libstemmer library.
 
 %package -n	%{devname}
-Summary:	Static library and header files for the libstemmer library
+Summary:	Development library and header files for the libstemmer library
 Group:		Development/C
 Provides:	%{name}-devel = %{version}-%{release}
 Requires:	%{libname} >= %{version}-%{release}
 Obsoletes:	%{mklibname stemmer 0 -d}
 
 %description -n	%{devname}
-Snowball is a small string processing language designed for
-creating stemming algorithms for use in Information Retrieval.
-This site describes Snowball, and presents several useful stemmers
-which have been implemented using it.
-
-This package contains the static libstemmer library and its header
-files.
+This package contains the development files for %{name}.
 
 %package -n	stemwords
 Summary:	The stemwords utility using the libstemmer library
@@ -57,11 +51,11 @@ Group:          System/Libraries
 The stemwords utility using the libstemmer library
 
 %prep
-%setup -q -n libstemmer_c
+%setup -qn libstemmer_c
 %patch0 -p0
 
 # lib64 fix
-perl -pi -e "s|/usr/lib|%{_libdir}|g" Makefile
+sed -i -e "s|/usr/lib|%{_libdir}|g" Makefile
 
 %build
 %make LDFLAGS="%{ldflags}" CFLAGS="%{optflags} -Wall -Iinclude -fPIC -DPIC -D_REENTRANT"
@@ -86,3 +80,4 @@ perl -pi -e "s|\.\./src_c/||g" %{buildroot}%{_includedir}/%{name}/modules.h
 
 %files -n stemwords
 %{_bindir}/stemwords
+
