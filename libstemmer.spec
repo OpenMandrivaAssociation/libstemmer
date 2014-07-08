@@ -77,7 +77,7 @@ The stemwords utility using the libstemmer library
 sed -i -e "s|/usr/lib|%{_libdir}|g" Makefile
 
 %build
-%make LDFLAGS="%{ldflags}" CFLAGS="%{optflags} -Wall -Iinclude -fPIC -DPIC -D_REENTRANT"
+%make CC=%{__cc} LDFLAGS="%{ldflags}" CFLAGS="%{optflags} -Wall -Iinclude -fPIC -DPIC -D_REENTRANT"
 
 %install
 %makeinstall_std
