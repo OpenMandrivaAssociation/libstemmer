@@ -2,14 +2,20 @@
 %define libname %mklibname stemmer %{major}
 %define devname %mklibname stemmer -d
 
+%define snapshot 20161018
+
 Summary:	The C version of the libstemmer library
 Name:		libstemmer
 Version:	0
-Release:	22
+Release:	23
 License:	BSD
 Group:		System/Libraries
 Url:		http://snowball.tartarus.org/
-Source0:	http://snowball.tartarus.org/dist/libstemmer_c.tgz
+# libstemmer tarball generated with following commands
+# git clone https://github.com/snowballstem/snowball.git
+# cd snowball && make dist_libstemmer_c
+# cd dist && mv libstemmer_c.tgz libstemmer_c-SNAPDATE.tar.gz
+Source0:	http://snowball.tartarus.org/dist/libstemmer_c-%{snapshot}.tar.gz
 Patch0:		libstemmer-libtool.diff
 BuildRequires:	libtool
 
@@ -36,7 +42,6 @@ which have been implemented using it.
 This package containst the C version of the libstemmer library.
 
 %files -n %{libname}
-%doc README
 %{_libdir}/libstemmer.so.%{major}*
 
 #----------------------------------------------------------------------------
@@ -60,9 +65,10 @@ This package contains the development files for %{name}.
 %package -n stemwords
 Summary:	The stemwords utility using the libstemmer library
 Group:		System/Libraries
+Requires:	%{libname} >= %{EVRD}
 
 %description -n stemwords
-The stemwords utility using the libstemmer library
+The stemwords utility using the libstemmer library.
 
 %files -n stemwords
 %{_bindir}/stemwords
@@ -86,5 +92,8 @@ sed -i -e "s|/usr/lib|%{_libdir}|g" Makefile
 install -m644 src_c/stem_*.h %{buildroot}%{_includedir}/%{name}/
 
 # fix location
-perl -pi -e "s|\.\./src_c/||g" %{buildroot}%{_includedir}/%{name}/modules.h
+sed -i -e "s|\.\./src_c/||g" %{buildroot}%{_includedir}/%{name}/modules.h
 
+# we don't want these
+find %{buildroot} -name "*.la" -delete
+find %{buildroot} -name '*.a' -delete
