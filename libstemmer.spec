@@ -2,15 +2,15 @@
 %define libname %mklibname stemmer %{major}
 %define devname %mklibname stemmer -d
 
-%define snapshot 20161018
+%define snapshot 20190216
 
 Summary:	The C version of the libstemmer library
 Name:		libstemmer
-Version:	0
-Release:	24
+Version:	0.0.%{snapshot}
+Release:	1
 License:	BSD
 Group:		System/Libraries
-Url:		http://snowball.tartarus.org/
+Url:		http://snowballstem.org/
 # libstemmer tarball generated with following commands
 # git clone https://github.com/snowballstem/snowball.git
 # cd snowball && make dist_libstemmer_c
@@ -76,8 +76,7 @@ The stemwords utility using the libstemmer library.
 #----------------------------------------------------------------------------
 
 %prep
-%setup -qn libstemmer_c
-%patch0 -p0
+%autosetup -p1 -n libstemmer_c
 
 # lib64 fix
 sed -i -e "s|/usr/lib|%{_libdir}|g" Makefile
