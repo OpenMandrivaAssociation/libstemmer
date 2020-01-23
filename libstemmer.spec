@@ -2,7 +2,7 @@
 %define libname %mklibname stemmer %{major}
 %define devname %mklibname stemmer -d
 
-%define snapshot 20190216
+%define snapshot 20200123
 
 Summary:	The C version of the libstemmer library
 Name:		libstemmer
@@ -17,7 +17,7 @@ Url:		http://snowballstem.org/
 # cd dist && mv libstemmer_c.tgz libstemmer_c-SNAPDATE.tar.gz
 Source0:	http://snowball.tartarus.org/dist/libstemmer_c-%{snapshot}.tar.gz
 Patch0:		libstemmer-libtool.diff
-BuildRequires:	libtool
+#BuildRequires:	libtool
 
 %description
 Snowball is a small string processing language designed for
@@ -82,7 +82,7 @@ The stemwords utility using the libstemmer library.
 sed -i -e "s|/usr/lib|%{_libdir}|g" Makefile
 
 %build
-%make CC=%{__cc} LDFLAGS="%{ldflags}" CFLAGS="%{optflags} -Wall -Iinclude -fPIC -DPIC -D_REENTRANT"
+%make CC=%{__cc} LDFLAGS="%{ldflags}" CFLAGS="%{optflags} -O3 -Wall -Iinclude -fPIC -DPIC -D_REENTRANT"
 
 %install
 %makeinstall_std
