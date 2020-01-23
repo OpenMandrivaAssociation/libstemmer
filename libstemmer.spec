@@ -17,7 +17,7 @@ Url:		http://snowballstem.org/
 # cd dist && mv libstemmer_c.tgz libstemmer_c-SNAPDATE.tar.gz
 Source0:	http://snowball.tartarus.org/dist/libstemmer_c-%{snapshot}.tar.gz
 Patch0:		libstemmer-libtool.diff
-#BuildRequires:	libtool
+BuildRequires:	libtool
 
 %description
 Snowball is a small string processing language designed for
