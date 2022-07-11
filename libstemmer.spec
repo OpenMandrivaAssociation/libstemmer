@@ -6,7 +6,7 @@
 
 Summary:	The C version of the libstemmer library
 Name:		libstemmer
-Version:	0.0.%{snapshot}
+Version:	2.2.0
 Release:	1
 License:	BSD
 Group:		System/Libraries
