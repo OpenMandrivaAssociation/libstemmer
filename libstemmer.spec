@@ -7,7 +7,7 @@
 Summary:	The C version of the libstemmer library
 Name:		libstemmer
 Version:	2.2.0
-Release:	1
+Release:	2
 License:	BSD
 Group:		System/Libraries
 Url:		http://snowballstem.org/
@@ -82,10 +82,10 @@ The stemwords utility using the libstemmer library.
 sed -i -e "s|/usr/lib|%{_libdir}|g" Makefile
 
 %build
-%make CC=%{__cc} LDFLAGS="%{ldflags}" CFLAGS="%{optflags} -O3 -Wall -Iinclude -fPIC -DPIC -D_REENTRANT"
+%make_build CC=%{__cc} LDFLAGS="%{build_ldflags}" CFLAGS="%{optflags} -O3 -Wall -Iinclude -fPIC -DPIC -D_REENTRANT"
 
 %install
-%makeinstall_std
+%make_install
 
 # install referenced headers
 install -m644 src_c/stem_*.h %{buildroot}%{_includedir}/%{name}/

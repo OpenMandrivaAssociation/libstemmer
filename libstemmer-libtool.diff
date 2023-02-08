@@ -13,7 +13,7 @@ diff -up libstemmer_c/Makefile.orig libstemmer_c/Makefile
 -	$(CC) $(CFLAGS) -o $@ $^
 +	$(CC) -o $@ $^
 +CFLAGS+=-Wall -Iinclude -fPIC -DPIC -D_REENTRANT
-+CC=gcc
++CC=cc
 +bindir = /usr/bin
 +libdir = /usr/lib
 +includedir = /usr/include
