@@ -7,7 +7,7 @@
 Summary:	The C version of the libstemmer library
 Name:		libstemmer
 Version:	2.2.0
-Release:	2
+Release:	3
 License:	BSD
 Group:		System/Libraries
 Url:		http://snowballstem.org/
