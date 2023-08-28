@@ -1,0 +1,38 @@
+diff -up libstemmer_c-2.2.0/Makefile.1~ libstemmer_c-2.2.0/Makefile
+--- libstemmer_c-2.2.0/Makefile.1~	2023-08-28 14:02:12.385746494 +0200
++++ libstemmer_c-2.2.0/Makefile	2023-08-28 14:06:14.293941301 +0200
+@@ -4,10 +4,32 @@ EXEEXT=.exe
+ endif
+ CFLAGS=-O2
+ CPPFLAGS=-Iinclude
++INSTALL=install -c
++prefix=/usr
++bindir=$(prefix)/bin
++libdir=$(prefix)/lib
++includedir=$(prefix)/include
+ all: libstemmer.a stemwords$(EXEEXT)
+ libstemmer.a: $(snowball_sources:.c=.o)
+ 	$(AR) -cru $@ $^
+-stemwords$(EXEEXT): examples/stemwords.o libstemmer.a
+-	$(CC) $(CFLAGS) -o $@ $^
++libstemmer.so.0.0.0: $(snowball_sources:.c=.o)
++	$(CC) $(CFLAGS) $(LDFLAGS) -shared -o $@ -Wl,-soname,libstemmer.so.0 $^
++libstemmer.so: libstemmer.so.0.0.0
++	ln -s libstemmer.so.0.0.0 libstemmer.so.0
++	ln -s libstemmer.so.0.0.0 libstemmer.so
++stemwords$(EXEEXT): examples/stemwords.o libstemmer.so
++	$(CC) $(CFLAGS) -o $@ examples/stemwords.o -L. -lstemmer
+ clean:
+ 	rm -f stemwords$(EXEEXT) libstemmer.a *.o src_c/*.o examples/*.o runtime/*.o libstemmer/*.o
++install:
++	$(INSTALL) -d $(DESTDIR)$(bindir)
++	$(INSTALL) -d $(DESTDIR)$(libdir)
++	$(INSTALL) -d $(DESTDIR)$(includedir)/libstemmer
++	$(INSTALL) libstemmer.so.0.0.0 $(DESTDIR)$(libdir)
++	ln -s libstemmer.so.0.0.0 $(DESTDIR)$(libdir)/libstemmer.so.0
++	ln -s libstemmer.so.0.0.0 $(DESTDIR)$(libdir)/libstemmer.so
++	$(INSTALL) -m 755 stemwords $(DESTDIR)$(bindir)
++	$(INSTALL) -m 644 libstemmer/modules.h $(DESTDIR)$(includedir)/libstemmer
++	$(INSTALL) -m 644 runtime/api.h $(DESTDIR)$(includedir)/libstemmer
++	$(INSTALL) -m 644 runtime/header.h $(DESTDIR)$(includedir)/libstemmer
++	$(INSTALL) -m 644 include/libstemmer.h $(DESTDIR)$(includedir)/libstemmer
