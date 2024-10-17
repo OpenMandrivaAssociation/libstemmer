@@ -11,7 +11,7 @@ Version:	2.2.0
 Release:	4
 License:	BSD
 Group:		System/Libraries
-Url:		http://snowballstem.org/
+Url:		https://snowballstem.org/
 %if 0%{?snapshot:1}
 # libstemmer tarball generated with following commands
 # git clone https://github.com/snowballstem/snowball.git
